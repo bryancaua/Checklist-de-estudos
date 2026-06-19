@@ -1,13 +1,11 @@
 import { useEffect, useRef } from "react";
-import "./dialog-style.css";
+import "./dialog.style.css";
 import { IconClose } from "../icons";
 
 export function Dialog({ isOpen, onClose, children }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
-    console.log("A modal deveria estar aberta ?", isOpen);
-
     if (isOpen) {
       openDialog();
     } else {

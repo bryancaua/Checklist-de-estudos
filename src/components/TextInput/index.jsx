@@ -1,7 +1,7 @@
-import './text-input-style.css';
+import './text.input.style.css';
 
 export function TextInput (props) {
     return (
-        <input type="text" className='text-input'{...props}/>
+        <input type="text" className='text-input'{...props} required/>
     )
 }
