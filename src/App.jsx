@@ -12,6 +12,7 @@ import { ToDoItem } from "./components/ToDoItem";
 import { ToDoList } from "./components/ToDoList";
 import { ToDoForm } from "./components/ToDoForm";
 
+/*
 const todos = [
   {
     id: 1,
@@ -52,19 +53,46 @@ const completed = [
     createdAt: "2022-10-31",
   },
 ];
+*/
 
 function App() {
+  const [todos, setToDos] = useState([
+    {
+      id: 1,
+      description: "JSX e componentes",
+      completed: false,
+      createdAt: "2022-10-31",
+    },
+    {
+      id: 2,
+      description: "Controle de inputs e formulários controlados",
+      completed: true,
+      createdAt: "2022-10-31",
+    },
+  ]);
 
   const [showDialog, setShowDialog] = useState(false);
 
   const toggleDialog = () => {
     setShowDialog(!showDialog);
-  }
+  };
 
-  const addToDo = () => {
+  const addToDo = (formData) => {
+    const description = formData.get("description");
+    setToDos((prevState) => {
+      const todo = {
+        id: prevState.lenght + 1,
+        description,
+        completed: false,
+        createdAt: new Date().toISOString()
+      };
+
+      return [...prevState, todo];
+    });
+
     console.log("Deveriamos add to do");
     toggleDialog();
-  }
+  };
 
   return (
     <main>
@@ -77,21 +105,25 @@ function App() {
         <ChecklistsWrapper>
           <SubHeading>Para estudar</SubHeading>
           <ToDoList>
-            {todos.map(function (t) {
-              return <ToDoItem key={t.id} item={t} />;
-            })}
+            {todos
+              .filter((t) => !t.completed)
+              .map(function (t) {
+                return <ToDoItem key={t.id} item={t} />;
+              })}
           </ToDoList>
           <SubHeading>Concluído</SubHeading>
           <ToDoList>
-            {completed.map(function (t) {
-              return <ToDoItem key={t.id} item={t} />;
-            })}
+            {todos
+              .filter((t) => t.completed)
+              .map(function (t) {
+                return <ToDoItem key={t.id} item={t} />;
+              })}
           </ToDoList>
           <Footer>
             <Dialog isOpen={showDialog} onClose={toggleDialog}>
-              <ToDoForm onSubmit={addToDo}/>
+              <ToDoForm onSubmit={addToDo} />
             </Dialog>
-            
+
             <FabButton onClick={toggleDialog}>
               <IconPlus />
             </FabButton>

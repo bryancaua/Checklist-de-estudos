@@ -5,7 +5,7 @@ import { TextInput } from "../TextInput";
 export function ToDoForm({onSubmit}) {
   return (
     <form action={onSubmit} className="form-save-item">
-      <TextInput placeholder="Digite o item que deseja adicionar" />
+      <TextInput placeholder="Digite o item que deseja adicionar" name="description"/>
       <SaveButton>Salvar Item</SaveButton>
     </form>
   );
