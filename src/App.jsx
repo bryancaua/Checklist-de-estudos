@@ -79,19 +79,33 @@ function App() {
 
   const addToDo = (formData) => {
     const description = formData.get("description");
+
     setToDos((prevState) => {
       const todo = {
-        id: prevState.lenght + 1,
+        id: prevState.length + 1,
         description,
         completed: false,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       return [...prevState, todo];
     });
 
-    console.log("Deveriamos add to do");
     toggleDialog();
+  };
+
+  const toggleTodoCompleted = (todo) => {
+    setToDos(prevState => {
+      return prevState.map(t => {
+        if(t.id == todo.id) {
+          return {
+            ...t,
+            completed: !t.completed
+          }
+        }
+        return t;
+      }) 
+    })
   };
 
   return (
@@ -106,17 +120,17 @@ function App() {
           <SubHeading>Para estudar</SubHeading>
           <ToDoList>
             {todos
-              .filter((t) => !t.completed)
+              .filter(t => !t.completed)
               .map(function (t) {
-                return <ToDoItem key={t.id} item={t} />;
+                return <ToDoItem key={t.id} item={t} onToggleCompleted={toggleTodoCompleted}/>;
               })}
           </ToDoList>
           <SubHeading>Concluído</SubHeading>
           <ToDoList>
             {todos
-              .filter((t) => t.completed)
+              .filter(t => t.completed)
               .map(function (t) {
-                return <ToDoItem key={t.id} item={t} />;
+                return <ToDoItem key={t.id} item={t} onToggleCompleted={toggleTodoCompleted}/>;
               })}
           </ToDoList>
           <Footer>
